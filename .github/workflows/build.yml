@@ -2,7 +2,7 @@ name: Build TDLib
 
 on:
     push:
-    workflow_dispatch: # Manually run the workflow
+    workflow_dispatch:
  jobs:
     build:
         runs-on: ubuntu-latest
