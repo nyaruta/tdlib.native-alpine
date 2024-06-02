@@ -12,6 +12,8 @@ jobs:
               run: apk add --no-cache git make g++ musl-dev openssl-dev zlib-dev php gperf cmake linux-headers
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                  submodules: true
             - name: Build
               run: |
                     mkdir td/build
