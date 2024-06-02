@@ -1,0 +1,26 @@
+name: Build TDLib
+
+on:
+    push:
+    workflow_dispatch: # Manually run the workflow
+ jobs:
+    build:
+        runs-on: ubuntu-latest
+        container: alpine
+        steps:
+            - name: Install dependencies
+              run: apk add --no-cache git make g++ musl-dev openssl-dev zlib-dev php gperf cmake linux-headers
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Build
+              run: |
+                    makedir td/build
+                    cd td/build
+                    cmake -DCMAKE_BUILD_TYPE=Release ..
+                    cmake --build .
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: tdlib
+                  path: td/build
+        
