@@ -39,11 +39,8 @@ jobs:
               with:
                   name: tdlib
                   path: tdlib
-            - name: Create release
-              uses: softprops/action-gh-release@v1
+            - name: Release
+              uses: softprops/action-gh-release@v2
               with:
                   files: tdlib/*
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  tag_name: v${{ github.run_number }}
-                  release_name: Release ${{ github.run_number }}
         
