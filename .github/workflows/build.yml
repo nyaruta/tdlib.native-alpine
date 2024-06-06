@@ -7,6 +7,8 @@ jobs:
     build:
         runs-on: ubuntu-latest
         container: alpine
+        outputs:
+            submodule_commit_hash: ${{ steps.get_submodule_commit_hash.outputs.stdout }}
         steps:
             - name: Install dependencies
               run: apk add --no-cache git make g++ musl-dev openssl-dev zlib-dev php gperf cmake linux-headers
@@ -14,6 +16,9 @@ jobs:
               uses: actions/checkout@v4
               with:
                   submodules: true
+            - name: Get submodule commit hash
+              id: get_submodule_commit_hash
+              run: echo $((git -C td rev-parse HEAD | cut -c 1-7)) >> "$GITHUB_OUTPUT"
             - name: Build
               run: |
                     mkdir td/build
@@ -43,4 +48,6 @@ jobs:
               uses: softprops/action-gh-release@v2
               with:
                   files: tdlib/*
+                  name: ${{ needs.build.outputs.submodule_commit_hash }}
+                  tag_name: ${{ needs.build.outputs.submodule_commit_hash }}
         
