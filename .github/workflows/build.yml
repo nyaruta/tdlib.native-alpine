@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         container: alpine
         outputs:
-            submodule_commit_hash: ${{ steps.get_submodule_commit_hash.outputs.stdout }}
+            submodule_commit_hash: ${{ steps.get_submodule_commit_hash.outputs.HASH }}
         steps:
             - name: Install dependencies
               run: apk add --no-cache git make g++ musl-dev openssl-dev zlib-dev php gperf cmake linux-headers
@@ -18,7 +18,7 @@ jobs:
                   submodules: true
             - name: Get submodule commit hash
               id: get_submodule_commit_hash
-              run: echo $(git -C td rev-parse HEAD | cut -c 1-7) >> "$GITHUB_OUTPUT"
+              run: echo HASH=$(git -C td rev-parse HEAD | cut -c 1-7) >> "$GITHUB_OUTPUT"
             - name: Build
               run: |
                     mkdir td/build
